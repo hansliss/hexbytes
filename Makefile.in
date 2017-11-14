@@ -29,8 +29,10 @@ OBJS=hexbytes.o
 LIB_OBJS=
 DISTSRC=aclocal.m4 config.h.in configure configure.in $(SOURCES) $(HEADERS) install-sh Makefile.in mkinstalldirs README
 DISTBIN=$(TARGETS) README
+TESTFILE=testfile.hex
+TESTMATCH=testfile.txt
 
-all: $(TARGET)
+all: $(TARGET) test
 
 install: all
 	$(top_srcdir)/mkinstalldirs $(bindir)
@@ -40,6 +42,10 @@ install: all
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $(TARGET) $(OBJS) $(LDFLAGS) $(LIBS)
+
+test: $(TARGET)
+	./$(TARGET) < $(TESTFILE) > tmp.tst
+	if diff >/dev/null tmp.tst $(TESTMATCH); then rm tmp.tst; echo "Test OK"; else echo "Test failed"; rm tmp.tst; exit 3; fi
 
 $(OBJS): $(SOURCES)
 
@@ -53,7 +59,7 @@ config-clean: confclean-recursive
 confclean-recursive: cfg-clean
 
 cfg-clean:
-	/bin/rm -f Makefile config.h config.status config.cache config.log
+	/bin/rm -f Makefile config.h config.status config.cache config.log tmp.tst
 
 mostlyclean: clean
 
