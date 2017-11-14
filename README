@@ -1,3 +1,4 @@
-Convert a file containing hex data to the corresponding binary. The input file is parsed two bytes at a time using sscanf().
+Convert a file containing hex data to the corresponding binary. The input file is parsed two bytes at a time using sscanf(), after skipping spaces, non-hex characters and "0x", so will handle various different formats.
 
-TODO: Pretty much everything.
+
+
