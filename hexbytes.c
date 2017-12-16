@@ -23,4 +23,5 @@ int main(int argc, char *argv[]) {
     }
     //    fputc('\n', stdout);
   }
+  return 0;
 }
